@@ -1,0 +1,51 @@
+Toss Impact on Winning
+IF [Toss Winner] = [Match Winner] THEN "Won After Winning Toss" ELSE "Lost After Winning Toss" END
+
+Average Runs Per Over
+SUM([Total Runs]) / (SUM([Total Balls]) / 6)
+
+Economy Rate of a Bowler
+SUM([Total Runs Given]) / (SUM([Total Balls Bowled]) / 6)
+
+Strike Rate of a Batsman
+(SUM([Total Runs]) / SUM([Balls Faced])) * 100
+
+Win Percentage of a Team
+(SUM([Matches Won]) / SUM([Total Matches])) * 100
+----------
+
+// Team & Venue Performance Analysis
+
+// Calculate total matches played by a team
+TOTAL_MATCHES_TEAM = COUNT([Match ID])
+
+// Calculate total wins by a team
+TOTAL_WINS_TEAM = SUM(IF [Match Winner] = [Team] THEN 1 ELSE 0 END)
+
+// Calculate win percentage for a team
+WIN_PERCENTAGE_TEAM = (TOTAL_WINS_TEAM / TOTAL_MATCHES_TEAM) * 100
+
+// Calculate total matches played at a venue
+TOTAL_MATCHES_VENUE = COUNT([Match ID])
+
+// Calculate matches won by home team at a venue
+HOME_TEAM_WINS = SUM(IF [Match Winner] = [Home Team] THEN 1 ELSE 0 END)
+
+// Calculate home advantage percentage at a venue
+HOME_ADVANTAGE_PERCENT = (HOME_TEAM_WINS / TOTAL_MATCHES_VENUE) * 100
+
+// Calculate average first innings score at a venue
+AVG_FIRST_INNINGS_SCORE = AVG(IF [Innings] = 1 THEN [Total Runs] END)
+
+// Calculate highest total score at a venue
+HIGHEST_TOTAL_VENUE = MAX([Total Runs])
+
+// Calculate best chasing performance at a venue
+BEST_CHASE_VENUE = MAX(IF [Winning Team Chased] = "Yes" THEN [Total Runs] END)
+
+// Return all calculated metrics for analysis
+STR("Team Analysis - Win %: ") + STR(WIN_PERCENTAGE_TEAM) + 
+" | Venue Analysis - Home Adv %: " + STR(HOME_ADVANTAGE_PERCENT) + 
+" | Avg 1st Inn Score: " + STR(AVG_FIRST_INNINGS_SCORE) + 
+" | Highest Total: " + STR(HIGHEST_TOTAL_VENUE) + 
+" | Best Chase: " + STR(BEST_CHASE_VENUE)
